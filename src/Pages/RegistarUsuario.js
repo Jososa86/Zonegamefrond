@@ -9,15 +9,15 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { InputMask } from 'primereact/inputmask';
-//import { Password } from 'primereact/password';
-import { Menubar } from 'primereact/menubar';
-
+import { Password } from 'primereact/password';
 
 import 'primereact/resources/themes/nova/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
-
+import { Menubar } from 'primereact/menubar';
+//import { Prev } from 'react-bootstrap/esm/PageItem';
+//import { Button } from 'bootstrap';
 
 export default class App extends Component{
   constructor(){
@@ -51,7 +51,7 @@ export default class App extends Component{
        command : () => {this.showLoginDialog()}
       },
     ];
-    this.userService = new UserService();
+    this.userService = new UserService(); 
     this.save = this.save.bind(this);
     this.delete = this.delete.bind(this);
     this.footer = (
@@ -76,11 +76,7 @@ export default class App extends Component{
           email: null,
           telephone: null,
           password: null
-      },
-      User: {
-        email: null,
-        password: null
-      }
+      }      
       });
       Toast.current.show({severity: 'success', summary: '¡Atencion!', detail: 'Usuario Guardado'});
       this.userService.getAll().then(data => this.setState({users: data}));
@@ -150,7 +146,7 @@ export default class App extends Component{
               </span>
               <br/>
               <span className='p-float-label'>
-              <InputText value={this.state.user.password} style={{width:'100%'}}  id="password" onChange={(e) => {
+              <Password value={this.state.user.password} style={{width:'100px'}}  id="password" onChange={(e) => {
                 let val =  e.target.value;
                 this.setState(prevState =>{
                 let user = Object.assign({}, prevState.user)
@@ -179,17 +175,6 @@ export default class App extends Component{
       }
     });
     document.getElementById('persona-fomr').reset();
-  }
-
-  showLoginDialog(){
-    this.setState({
-      visible: true,
-      user : {
-        email: null,
-        password: null,
-        telephone: null
-      }
-    })
   }
 }
 

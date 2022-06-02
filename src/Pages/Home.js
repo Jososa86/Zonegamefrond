@@ -1,23 +1,20 @@
 import { Component } from 'react';
 import './App.css';
 import { UserService } from './service/UserService';
-//import {DataTable} from 'primereact/datatable';
-//import { Column } from 'primereact/column';
-//import { Panel } from 'primereact/panel';
+import {DataTable} from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Panel } from 'primereact/panel';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
+import { Menubar } from 'primereact/menubar';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { Password } from 'primereact/password';
 import { InputMask } from 'primereact/inputmask';
-//import { Password } from 'primereact/password';
-import { Menubar } from 'primereact/menubar';
-
 
 import 'primereact/resources/themes/nova/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-
-
 
 export default class App extends Component{
   constructor(){
@@ -36,24 +33,21 @@ export default class App extends Component{
       }
   }
 
-
     this.items = [
       {
       label:'Registrar usuario',
       icon:'pi pi-user-plus',
       command : () => {this.showSaveDialog()}
       },
-    ];
-    this.items1 = [
       {
-        label:'Iniciar sesion',
+        label:'Iniciar sesión',
        icon:'pi pi-user-edit',
        command : () => {this.showLoginDialog()}
       },
     ];
-    this.userService = new UserService();
+
+    this.userService = new UserService(); 
     this.save = this.save.bind(this);
-    this.delete = this.delete.bind(this);
     this.footer = (
       <div>
       <Button label='Guardar' icon='pi pi-check' onClick={this.save} />
@@ -76,39 +70,19 @@ export default class App extends Component{
           email: null,
           telephone: null,
           password: null
-      },
-      User: {
-        email: null,
-        password: null
-      }
+      }      
       });
       Toast.current.show({severity: 'success', summary: '¡Atencion!', detail: 'Usuario Guardado'});
       this.userService.getAll().then(data => this.setState({users: data}));
     })
   }
 
-  delete(){
-    if(window.confirm("¿Desea borrar el registro?")){
-      this.userService.delete(this.state.selectUser.id).then(data =>{
-        Toast.current.show({severity: 'success', summary: '¡Atencion!', detail: 'Usuario Eliminado'})
-        this.userService.getAllUser().then(data => this.setState({users: data}))
-      });
-    }
-  }
-
-
   render(){
     return (
       <div style={{width:'80%', marginTop: '20px', margin:'0 auto'}}>
-        <br />
-        <br />
-        <br />
-        <br />
-        <Menubar model={this.items} style={{width:'22%', marginTop: '20px', margin:'0 auto'}}></Menubar>
-        <br />
-        <Menubar model={this.items1} style={{width:'22%', marginTop: '20px', margin:'0 auto'}}></Menubar>
+        <Menubar model={this.items}></Menubar>
         <br></br>
-          <Dialog header="Registrar Usuario" visible={this.state.visible} style={{width: '400px'}} footer={this.footer} modal={true} onHide={() => this.setState({visible: false})}>
+        <Dialog header="Registrar Usuario" visible={this.state.visible} style={{width: '400px'}} footer={this.footer} modal={true} onHide={() => this.setState({visible: false})}>
               <form id='user-form'>
               <span className='p-float-label'>
               <InputText value={this.state.user.name} style={{width:'100%'}} id="name" onChange={(e) => {
@@ -124,7 +98,7 @@ export default class App extends Component{
               </span>
               <br/>
               <span className='p-float-label'>
-              <InputText value={this.state.user.email} style={{width:'100%'}} id="email" type='email' onChange={(e) => {
+              <InputText value={this.state.user.email} style={{width:'100%'}} id="email" onChange={(e) => {
                 let val =  e.target.value;
                 this.setState(prevState =>{
                 let user = Object.assign({}, prevState.user)
@@ -150,15 +124,16 @@ export default class App extends Component{
               </span>
               <br/>
               <span className='p-float-label'>
-              <InputText value={this.state.user.password} style={{width:'100%'}}  id="password" onChange={(e) => {
+              <Password value={this.state.user.password} style={{width:'100%'}}  id="password" onChange={(e) => {
                 let val =  e.target.value;
                 this.setState(prevState =>{
                 let user = Object.assign({}, prevState.user)
                 user.password = val
+
                 return {user};
-                })} 
-              }
-              />
+              })} 
+            }
+            />
               <label htmlFor='password'>Contraseña</label>
               </span>
             </form>
@@ -167,6 +142,7 @@ export default class App extends Component{
      </div>
     )
   }
+
   showSaveDialog(){
     this.setState({
       visible : true,
@@ -178,19 +154,17 @@ export default class App extends Component{
         password: null
       }
     });
-    document.getElementById('persona-fomr').reset();
+    document.getElementById('persona-form').reset();
   }
-
-  showLoginDialog(){
-    this.setState({
-      visible: true,
-      user : {
-        email: null,
-        password: null,
-        telephone: null
-      }
-    })
-  }
+    showLoginDialog(){
+      this.setState({
+        visible: true,
+        userLogin:{
+          email: null,
+          password: null
+        }
+      })
+    }
 }
 
 

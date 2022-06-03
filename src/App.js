@@ -29,7 +29,8 @@ export default class App extends Component{
         name: null,
         email: null,
         telephone: null,
-        password: null
+        password: null,
+        edad: null
       },
       selectUser : {
 
@@ -75,7 +76,8 @@ export default class App extends Component{
           name: null,
           email: null,
           telephone: null,
-          password: null
+          password: null,
+          edad: null,
       },
       User: {
         email: null,
@@ -161,6 +163,19 @@ export default class App extends Component{
               />
               <label htmlFor='password'>Contraseña</label>
               </span>
+              <br/>
+              <span className='p-float-label'>
+              <InputText value={this.state.user.edad} style={{width:'100%'}}  id="edad" onChange={(e) => {
+                let val =  e.target.value;
+                this.setState(prevState =>{
+                let user = Object.assign({}, prevState.user)
+                user.edad = val
+                return {user};
+                })} 
+              }
+              />
+              <label htmlFor='edad'>Ingresar edad</label>
+              </span>
             </form>
           </Dialog>
           <Toast ref={Toast} />
@@ -175,7 +190,8 @@ export default class App extends Component{
         name: null,
         email: null,
         telephone: null,
-        password: null
+        password: null,
+        edad: null
       }
     });
     document.getElementById('persona-fomr').reset();
@@ -192,5 +208,6 @@ export default class App extends Component{
     })
   }
 }
+
 
 
